@@ -32,9 +32,6 @@ export default defineConfig(async () => {
      Meaning they shouldn't be bundled with the addon, and they shouldn't be regular dependencies either
     */
     external: ['react', 'react-dom', '@storybook/icons', 'vue'],
-    loader: {
-      '.vue': 'copy',
-    },
   };
 
   const configs: Options[] = [];

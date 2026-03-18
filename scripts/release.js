@@ -1,4 +1,5 @@
 import { execSync } from 'node:child_process';
+import fs from 'node:fs';
 
 try {
   console.log('Calculating version bump...');
@@ -22,14 +23,24 @@ try {
       console.log('Staging changes and committing...');
       execSync('git add package.json CHANGELOG.md', { stdio: 'inherit' });
       execSync(`git commit -m "chore(release): bump version to ${bump} [skip ci]"`, { stdio: 'inherit' });
+
+      const packageJson = JSON.parse(fs.readFileSync('./package.json', 'utf8'));
+      const newVersion = packageJson.version;
+      console.log(`Creating git tag v${newVersion}...`);
+      try {
+        execSync(`git tag -a v${newVersion} -m "v${newVersion}"`, { stdio: 'inherit' });
+      } catch (e) {
+        console.warn('Tag creation failed (maybe already exists):', e.message);
+      }
     } else {
       console.log('No changes to commit.');
     }
   }
 
-  console.log('Running auto shipit to publish...');
-  // auto shipit --only-publish 옵션을 사용하여 버전 범프와 태그 생성을 건너뜀
-  execSync('pnpm exec auto shipit --only-publish', { stdio: 'inherit' });
+  console.log('Running auto shipit...');
+  // --use-version 옵션을 사용하여 auto 가 특정 버전을 사용하도록 강제함 (npm 플러그인 지원)
+  const currentVersion = JSON.parse(fs.readFileSync('./package.json', 'utf8')).version;
+  execSync(`pnpm exec auto shipit --use-version ${currentVersion}`, { stdio: 'inherit' });
 } catch (error) {
   console.error('Release failed:', error.message);
   process.exit(1);

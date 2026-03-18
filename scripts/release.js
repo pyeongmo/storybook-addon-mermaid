@@ -10,9 +10,20 @@ try {
     // pnpm version <bump> --no-git-tag-version 을 실행하면 package.json 의 버전이 업데이트됨
     execSync(`pnpm version ${bump} --no-git-tag-version`, { stdio: 'inherit' });
 
+    // package.json의 최신 버전을 가져옴
+    const updatedVersion = JSON.parse(fs.readFileSync('package.json', 'utf8')).version;
+
     console.log('Generating changelog...');
     try {
-      execSync('pnpm exec auto changelog', { stdio: 'inherit' });
+      // auto changelog --use-version <version> 을 사용해 정확한 버전 명시
+      // --from 옵션을 사용하여 중복 생성을 방지 (마지막 태그부터 현재까지)
+      let fromTag = '';
+      try {
+        fromTag = `--from ${execSync('git describe --tags --abbrev=0', { encoding: 'utf8' }).trim()}`;
+      } catch (e) {
+        console.log('No previous tags found, generating full changelog.');
+      }
+      execSync(`pnpm exec auto changelog --use-version v${updatedVersion} ${fromTag}`, { stdio: 'inherit' });
     } catch (e) {
       console.warn('Changelog generation failed:', e.message);
     }
@@ -20,8 +31,8 @@ try {
     const status = execSync('git status --short', { encoding: 'utf8' }).trim();
     if (status) {
       console.log('Staging changes and committing...');
-      execSync('git add package.json CHANGELOG.md scripts/release.js', { stdio: 'inherit' });
-      execSync(`git commit -m "chore(release): bump version to ${bump} [skip ci]"`, { stdio: 'inherit' });
+      execSync('git add package.json CHANGELOG.md', { stdio: 'inherit' });
+      execSync(`git commit -m "chore(release): bump version to v${updatedVersion} [skip ci]"`, { stdio: 'inherit' });
     } else {
       console.log('No changes to commit.');
     }
@@ -45,7 +56,7 @@ try {
 
   console.log('Creating GitHub release...');
   try {
-    execSync('pnpm exec auto release', { stdio: 'inherit' });
+    execSync(`pnpm exec auto release --use-version v${currentVersion}`, { stdio: 'inherit' });
   } catch (e) {
     console.warn('GitHub release creation failed (check your GITHUB_TOKEN permissions):', e.message);
   }

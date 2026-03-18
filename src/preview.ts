@@ -23,16 +23,25 @@ const preview: ProjectAnnotations<Renderer> = {
         const url = generateMermaidUrl(mmd, theme, baseUrl);
 
         try {
-          return React.createElement('iframe', {
-            src: url,
-            style: getIframeStyle(minHeight),
-          });
+          const renderer = context.parameters.renderer || '';
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          const rendererStr = typeof renderer === 'string' ? renderer : (renderer as any)?.name || '';
+          const isReact = rendererStr.includes('react');
+
+          if (isReact && typeof React !== 'undefined' && React.createElement) {
+            return React.createElement('iframe', {
+              src: url,
+              style: getIframeStyle(minHeight),
+            });
+          }
         } catch {
-          // fallback
-          return {
-            template: `<iframe src="${url}" style="${getIframeStyleString(minHeight)}" />`,
-          };
+          // ignore
         }
+
+        // fallback for Vue/HTML/others
+        return {
+          template: `<iframe src="${url}" style="${getIframeStyleString(minHeight)}" />`,
+        };
       }
 
       return Story();

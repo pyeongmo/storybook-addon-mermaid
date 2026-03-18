@@ -1,3 +1,28 @@
+# v0.1.17 (Thu Mar 19 2026)
+
+#### ⚠️ Pushed to `main`
+
+- chore: manual release flow in release script ([@pyeongmo](https://github.com/pyeongmo))
+- chore: adjust auto config to avoid npm version call ([@pyeongmo](https://github.com/pyeongmo))
+- chore: include release.js in release commit ([@pyeongmo](https://github.com/pyeongmo))
+- chore: finalize release script and package.json config ([@pyeongmo](https://github.com/pyeongmo))
+- chore: implement manual release steps in release script ([@pyeongmo](https://github.com/pyeongmo))
+- chore: use --use-version in release script ([@pyeongmo](https://github.com/pyeongmo))
+- chore: use --only-publish in release script ([@pyeongmo](https://github.com/pyeongmo))
+- chore: update release script and configurations ([@pyeongmo](https://github.com/pyeongmo))
+- Revert version bump to 0.1.3 in package.json [skip-ci] ([@pyeongmo](https://github.com/pyeongmo))
+- add automated release script, Update CHANGELOG.md, bump version to 0.1.2 ([@pyeongmo](https://github.com/pyeongmo))
+- update vue version constraint in pnpm-lock.yaml ([@pyeongmo](https://github.com/pyeongmo))
+- initialize project ([@pyeongmo](https://github.com/pyeongmo))
+- project setup ([@pyeongmo](https://github.com/pyeongmo))
+- Initial commit ([@pyeongmo](https://github.com/pyeongmo))
+
+#### Authors: 1
+
+- 평모 ([@pyeongmo](https://github.com/pyeongmo))
+
+---
+
 # v0.1.16 (Thu Mar 19 2026)
 
 #### ⚠️ Pushed to `main`

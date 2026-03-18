@@ -35,6 +35,10 @@ try {
   const packageJson = JSON.parse(fs.readFileSync('package.json', 'utf8'));
   const currentVersion = packageJson.version;
   console.log(`Using version: ${currentVersion}`);
+
+  // --only-publish 옵션은 shipit 단계에서 버전 범프와 태그 생성을 건너뛰고 바로 배포(publish)만 수행하도록 시도합니다.
+  // 하지만 shipit 명령어는 --only-publish를 직접 지원하지 않을 수 있으므로,
+  // 만약 여전히 npm version을 호출하려 한다면 --use-version과 조합하여 최대한 우회합니다.
   execSync(`pnpm exec auto shipit --use-version ${currentVersion}`, { stdio: 'inherit' });
 } catch (error) {
   console.error('Release failed:', error.message);

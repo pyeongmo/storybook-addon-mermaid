@@ -46,10 +46,12 @@ try {
   console.log('Pushing commits...');
   execSync('git push origin main', { stdio: 'inherit' });
 
-  console.log('Creating GitHub release and publishing...');
-  // shipit 대신 release와 npm publish를 조합하거나,
-  // npm 플러그인 없이 auto를 사용하기는 복잡하므로 릴리즈 노트 생성 위주로 사용
-  execSync('pnpm exec auto release', { stdio: 'inherit' });
+  console.log('Creating GitHub release...');
+  try {
+    execSync('pnpm exec auto release', { stdio: 'inherit' });
+  } catch (e) {
+    console.warn('GitHub release creation failed (check your GITHUB_TOKEN permissions):', e.message);
+  }
 
   console.log('Publishing to npm...');
   execSync('pnpm publish --no-git-checks', { stdio: 'inherit' });

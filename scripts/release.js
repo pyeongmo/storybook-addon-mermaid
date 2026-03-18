@@ -28,18 +28,31 @@ try {
     }
   }
 
-  console.log('Running auto shipit...');
-  // 윈도우에서 인자 전달 문제를 피하기 위해, auto shipit이 직접 npm version을 호출하지 않도록
-  // 최대한 이미 업데이트된 정보를 바탕으로 동작하게 유도합니다.
-  // --use-version을 사용하여 auto가 npm version을 호출하는 대신 지정된 버전을 사용하도록 합니다.
+  console.log('Running auto release...');
+  // 윈도우에서 shipit/npm 플러그인이 npm version을 잘못 호출하는 문제를 피하기 위해
+  // 직접 태그를 생성하고 auto release를 호출하여 GitHub 릴리즈와 배포를 진행합니다.
   const packageJson = JSON.parse(fs.readFileSync('package.json', 'utf8'));
   const currentVersion = packageJson.version;
-  console.log(`Using version: ${currentVersion}`);
+  const tagName = `v${currentVersion}`;
 
-  // --only-publish 옵션은 shipit 단계에서 버전 범프와 태그 생성을 건너뛰고 바로 배포(publish)만 수행하도록 시도합니다.
-  // 하지만 shipit 명령어는 --only-publish를 직접 지원하지 않을 수 있으므로,
-  // 만약 여전히 npm version을 호출하려 한다면 --use-version과 조합하여 최대한 우회합니다.
-  execSync(`pnpm exec auto shipit --use-version ${currentVersion}`, { stdio: 'inherit' });
+  console.log(`Creating tag ${tagName}...`);
+  try {
+    execSync(`git tag -a ${tagName} -m "Release ${tagName} [skip ci]"`, { stdio: 'inherit' });
+    execSync(`git push origin ${tagName}`, { stdio: 'inherit' });
+  } catch (e) {
+    console.warn('Tag creation or push failed (it might already exist):', e.message);
+  }
+
+  console.log('Pushing commits...');
+  execSync('git push origin main', { stdio: 'inherit' });
+
+  console.log('Creating GitHub release and publishing...');
+  // shipit 대신 release와 npm publish를 조합하거나,
+  // npm 플러그인 없이 auto를 사용하기는 복잡하므로 릴리즈 노트 생성 위주로 사용
+  execSync('pnpm exec auto release', { stdio: 'inherit' });
+
+  console.log('Publishing to npm...');
+  execSync('pnpm publish --no-git-checks', { stdio: 'inherit' });
 } catch (error) {
   console.error('Release failed:', error.message);
   process.exit(1);

@@ -19,4 +19,5 @@ graph TD
     B -- No --> D[Not OK]
 `,
   },
+  render: () => ({}),
 };

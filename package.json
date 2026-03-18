@@ -44,7 +44,9 @@
     "prerelease": "zx scripts/prepublish-checks.js",
     "release": "pnpm run build && node scripts/release.js",
     "start": "run-p build:watch \"storybook --quiet\"",
+    "start:vue": "run-p build:watch \"storybook:vue --quiet\"",
     "storybook": "storybook dev -p 6006",
+    "storybook:vue": "storybook dev -p 6007 -c .storybook-vue",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
@@ -55,6 +57,7 @@
     "@storybook/addon-docs": "next",
     "@storybook/icons": "^2.0.0",
     "@storybook/react-vite": "next",
+    "@storybook/vue3-vite": "next",
     "@types/node": "^20",
     "@types/pako": "^2.0.3",
     "@types/react": "^18.2.65",

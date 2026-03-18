@@ -1,4 +1,4 @@
-import { defineComponent, computed, h } from 'vue';
+import { defineComponent } from 'vue';
 import { generateMermaidUrl, getIframeStyleString } from '../utils/mermaid';
 
 export const MermaidViewerVue = defineComponent({
@@ -22,15 +22,10 @@ export const MermaidViewerVue = defineComponent({
     },
   },
   setup(props) {
-    const previewUrl = computed(() => generateMermaidUrl(props.mmd, props.theme, props.baseUrl));
-    const iframeStyle = computed(() => getIframeStyleString(props.minHeight));
-
-    return () => {
-      if (!previewUrl.value) return null;
-      return h('iframe', {
-        src: previewUrl.value,
-        style: iframeStyle.value,
-      });
+    return {
+      url: generateMermaidUrl(props.mmd, props.theme, props.baseUrl),
+      style: getIframeStyleString(props.minHeight),
     };
   },
+  template: `<iframe :src="url" :style="style"></iframe>`,
 });

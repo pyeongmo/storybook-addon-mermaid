@@ -15,18 +15,15 @@ import React from 'react';
 const preview: ProjectAnnotations<Renderer> = {
   decorators: [
     (Story, context) => {
-      const { parameters } = context;
+      const { parameters, renderer } = context;
       const mmd = parameters.mermaid;
 
       if (mmd && typeof mmd === 'string') {
         const { mermaidBaseUrl: baseUrl, mermaidMinHeight: minHeight, mermaidTheme: theme } = parameters;
         const url = generateMermaidUrl(mmd, theme, baseUrl);
 
-        const renderer = context.parameters.renderer || '';
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const rendererStr = typeof renderer === 'string' ? renderer : (renderer as any)?.name || '';
+        const rendererStr = renderer || parameters.renderer || 'unknown';
         const isReact = rendererStr.includes('react');
-        const isVue = rendererStr.includes('vue');
 
         if (isReact && typeof React !== 'undefined' && React.createElement) {
           try {
@@ -37,17 +34,6 @@ const preview: ProjectAnnotations<Renderer> = {
           } catch {
             // ignore
           }
-        }
-
-        if (isVue) {
-          return {
-            name: 'MermaidDecorator',
-            setup() {
-              return { url, style: getIframeStyleString(minHeight) };
-            },
-            template: `<iframe :src="url" :style="style" />`,
-            format: () => {},
-          };
         }
 
         // fallback for HTML/others

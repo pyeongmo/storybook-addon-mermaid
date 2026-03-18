@@ -44,7 +44,7 @@ export default { title: 'React/Mermaid' };
 export const Simple = () => <MermaidViewer mmd="graph TD; A-->B;" />;
 ```
 
-#### Custom Story with `buildMermaidStoryReact`
+#### Story with `buildMermaidStoryReact`
 
 ```tsx
 import { buildMermaidStoryReact } from 'storybook-addon-mermaid';
@@ -67,7 +67,7 @@ import diagram from './diagram.mmd';
 </template>
 ```
 
-#### Custom Story with `buildMermaidStory`
+#### Story with `buildMermaidStory`
 
 ```ts
 import { buildMermaidStory } from 'storybook-addon-mermaid';
@@ -77,9 +77,21 @@ export default { title: 'Vue/Mermaid' };
 export const FromFile = buildMermaidStory(diagram);
 ```
 
-### Parameters
+### Options for `buildMermaidStory` and `buildMermaidStoryReact`
 
-You can also use the `mermaid` parameter to render a diagram in any story.
+You can pass an options object as a second argument.
+
+```ts
+export const CustomOptions = buildMermaidStory(mmd, {
+  theme: 'forest',
+  baseUrl: 'https://mermaid.live',
+  minHeight: '30rem',
+});
+```
+
+### TODO: Parameters
+
+TODO: use the `mermaid` parameter to render a diagram in any story.
 
 ```ts
 export default {
@@ -96,16 +108,4 @@ graph TD
 `,
   },
 };
-```
-
-### Options for `buildMermaidStory` and `buildMermaidStoryReact`
-
-You can pass an options object as a second argument.
-
-```ts
-export const CustomOptions = buildMermaidStory(mmd, {
-  theme: 'forest',
-  baseUrl: 'https://mermaid.live',
-  minHeight: '30rem',
-});
 ```

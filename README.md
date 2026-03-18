@@ -76,3 +76,39 @@ import diagram from './diagram.mmd';
 export default { title: 'Vue/Mermaid' };
 export const FromFile = buildMermaidStory(diagram);
 ```
+
+### Parameters
+
+You can also use the `mermaid` parameter to render a diagram in any story.
+
+```ts
+export default {
+  title: 'Parameters/Mermaid',
+};
+
+export const UsingParameter = {
+  parameters: {
+    mermaid: `
+graph TD
+    A[Start] --> B{Is it?}
+    B -- Yes --> C[OK]
+    B -- No --> D[Not OK]
+`,
+    mermaidTheme: 'dark', // optional
+    mermaidBaseUrl: 'https://mermaid.live', // optional
+    mermaidMinHeight: '50rem', // optional
+  },
+};
+```
+
+### Options for `buildMermaidStory` and `buildMermaidStoryReact`
+
+You can pass an options object as a second argument.
+
+```ts
+export const CustomOptions = buildMermaidStory(mmd, {
+  theme: 'forest',
+  baseUrl: 'https://mermaid.live',
+  minHeight: '30rem',
+});
+```

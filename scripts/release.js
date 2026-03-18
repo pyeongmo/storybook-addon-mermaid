@@ -17,7 +17,6 @@ try {
       console.warn('Changelog generation failed:', e.message);
     }
 
-    // 변경사항이 있는지 확인 후 커밋
     const status = execSync('git status --short', { encoding: 'utf8' }).trim();
     if (status) {
       console.log('Staging changes and committing...');
@@ -29,8 +28,6 @@ try {
   }
 
   console.log('Running auto release...');
-  // 윈도우에서 shipit/npm 플러그인이 npm version을 잘못 호출하는 문제를 피하기 위해
-  // 직접 태그를 생성하고 auto release를 호출하여 GitHub 릴리즈와 배포를 진행합니다.
   const packageJson = JSON.parse(fs.readFileSync('package.json', 'utf8'));
   const currentVersion = packageJson.version;
   const tagName = `v${currentVersion}`;

@@ -9,3 +9,14 @@ const meta: Meta = {
 export default meta;
 
 export const Default = buildMermaidStoryReact(mmd);
+
+export const UsingParameter = {
+  parameters: {
+    mermaid: `
+graph TD
+    A[Start] --> B{Is it?}
+    B -- Yes --> C[OK]
+    B -- No --> D[Not OK]
+`,
+  },
+};

@@ -1,8 +1,10 @@
-import { generateMermaidUrl } from './mermaid';
+import { generateMermaidUrl, getIframeStyle, getIframeStyleString } from './mermaid';
 import React from 'react';
 
 export interface MermaidStoryOptions {
   theme?: string;
+  baseUrl?: string;
+  minHeight?: string;
   layout?: 'fullscreen' | 'centered' | 'padded';
 }
 
@@ -11,24 +13,19 @@ export interface MermaidStoryOptions {
  * Defaults to Vue-compatible story format.
  */
 export function buildMermaidStory(mmd: string, options: MermaidStoryOptions = {}) {
-  const url = generateMermaidUrl(mmd, options.theme);
+  const { theme, baseUrl, minHeight, layout = 'fullscreen' } = options;
+  const url = generateMermaidUrl(mmd, theme, baseUrl);
   return {
     parameters: {
-      layout: options.layout || 'fullscreen',
+      layout,
       docs: { source: { code: mmd } },
     },
     render: () => {
       // We use a generic approach to handle different frameworks.
       // Most frameworks (Vue, HTML, Svelte) can handle a string or an object with template.
 
-      const inNewTab = typeof window !== 'undefined' && window.location.search.includes('viewMode=story');
-      let style = 'width: 100%; min-height: 40rem; border: none;';
-      if (inNewTab) {
-        style += 'height: 100svh;';
-      }
-
       return {
-        template: `<iframe src="${url}" style="${style}" />`,
+        template: `<iframe src="${url}" style="${getIframeStyleString(minHeight)}" />`,
       };
     },
   };
@@ -38,17 +35,18 @@ export function buildMermaidStory(mmd: string, options: MermaidStoryOptions = {}
  * Specifically build a React-compatible story for a Mermaid diagram.
  */
 export function buildMermaidStoryReact(mmd: string, options: MermaidStoryOptions = {}) {
-  const url = generateMermaidUrl(mmd, options.theme);
+  const { theme, baseUrl, minHeight, layout = 'fullscreen' } = options;
+  const url = generateMermaidUrl(mmd, theme, baseUrl);
 
   return {
     parameters: {
-      layout: options.layout || 'fullscreen',
+      layout,
       docs: { source: { code: mmd } },
     },
     render: () => {
+      const style = getIframeStyle(minHeight);
       const inNewTab = typeof window !== 'undefined' && window.location.search.includes('viewMode=story');
-      const style = { width: '100%', minHeight: '40rem', border: 'none' };
-      const className = `w-full min-h-160 ${inNewTab ? 'h-screen' : ''}`;
+      const className = `w-full ${inNewTab ? 'h-screen' : ''}`;
 
       try {
         // We try to use React if available
@@ -58,7 +56,7 @@ export function buildMermaidStoryReact(mmd: string, options: MermaidStoryOptions
           className: className,
         });
       } catch {
-        return `<iframe src="${url}" style="width: 100%; min-height: 40rem; border: none;" class="${className}"></iframe>`;
+        return `<iframe src="${url}" style="${getIframeStyleString(minHeight)}" class="${className}"></iframe>`;
       }
     },
   };

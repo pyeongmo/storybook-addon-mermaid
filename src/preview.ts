@@ -9,7 +9,35 @@
  * https://storybook.js.org/docs/react/writing-stories/decorators
  */
 import type { ProjectAnnotations, Renderer } from 'storybook/internal/types';
+import { generateMermaidUrl, getIframeStyle, getIframeStyleString } from './utils/mermaid';
+import React from 'react';
 
-const preview: ProjectAnnotations<Renderer> = {};
+const preview: ProjectAnnotations<Renderer> = {
+  decorators: [
+    (Story, context) => {
+      const { parameters } = context;
+      const mmd = parameters.mermaid;
+
+      if (mmd && typeof mmd === 'string') {
+        const { mermaidBaseUrl: baseUrl, mermaidMinHeight: minHeight, mermaidTheme: theme } = parameters;
+        const url = generateMermaidUrl(mmd, theme, baseUrl);
+
+        try {
+          return React.createElement('iframe', {
+            src: url,
+            style: getIframeStyle(minHeight),
+          });
+        } catch {
+          // fallback
+          return {
+            template: `<iframe src="${url}" style="${getIframeStyleString(minHeight)}" />`,
+          };
+        }
+      }
+
+      return Story();
+    },
+  ],
+};
 
 export default preview;

@@ -1,21 +1,17 @@
 import React, { useMemo } from 'react';
-import { generateMermaidUrl } from '../utils/mermaid';
+import { generateMermaidUrl, getIframeStyle } from '../utils/mermaid';
 
 export interface MermaidViewerProps {
   mmd: string;
+  theme?: string;
+  baseUrl?: string;
+  minHeight?: string;
 }
 
-export const MermaidViewer = ({ mmd }: MermaidViewerProps) => {
-  const previewUrl = useMemo(() => generateMermaidUrl(mmd), [mmd]);
+export const MermaidViewer = ({ mmd, theme, baseUrl, minHeight }: MermaidViewerProps) => {
+  const previewUrl = useMemo(() => generateMermaidUrl(mmd, theme, baseUrl), [mmd, theme, baseUrl]);
 
   if (!previewUrl) return null;
 
-  const inNewTab = typeof window !== 'undefined' && window.location.search.includes('viewMode=story');
-
-  return (
-    <iframe
-      src={previewUrl}
-      style={{ width: '100%', minHeight: '40rem', border: 'none', height: inNewTab ? '100svh' : '' }}
-    />
-  );
+  return <iframe src={previewUrl} style={getIframeStyle(minHeight)} />;
 };

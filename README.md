@@ -94,9 +94,6 @@ graph TD
     B -- Yes --> C[OK]
     B -- No --> D[Not OK]
 `,
-    mermaidTheme: 'dark', // optional
-    mermaidBaseUrl: 'https://mermaid.live', // optional
-    mermaidMinHeight: '50rem', // optional
   },
 };
 ```

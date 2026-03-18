@@ -21,9 +21,6 @@ export function buildMermaidStory(mmd: string, options: MermaidStoryOptions = {}
       docs: { source: { code: mmd } },
     },
     render: () => {
-      // We use a generic approach to handle different frameworks.
-      // Most frameworks (Vue, HTML, Svelte) can handle a string or an object with template.
-
       return {
         template: `<iframe src="${url}" style="${getIframeStyleString(minHeight)}" />`,
       };
@@ -32,7 +29,7 @@ export function buildMermaidStory(mmd: string, options: MermaidStoryOptions = {}
 }
 
 /**
- * Specifically build a React-compatible story for a Mermaid diagram.
+ * Specifically, build a React-compatible story for a Mermaid diagram.
  */
 export function buildMermaidStoryReact(mmd: string, options: MermaidStoryOptions = {}) {
   const { theme, baseUrl, minHeight, layout = 'fullscreen' } = options;

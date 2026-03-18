@@ -1,6 +1,6 @@
 {
   "name": "storybook-addon-mermaid",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "import and view .mmd file in your storybook",
   "keywords": [
     "storybook-addon"
@@ -42,7 +42,7 @@
     "lint": "eslint --cache .",
     "lint:fix": "pnpm lint --fix",
     "prerelease": "zx scripts/prepublish-checks.js",
-    "release": "npm run build && auto shipit",
+    "release": "pnpm run build && node scripts/release.js",
     "start": "run-p build:watch \"storybook --quiet\"",
     "storybook": "storybook dev -p 6006",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -112,6 +112,11 @@
       "html"
     ],
     "icon": "https://user-images.githubusercontent.com/321738/63501763-88dbf600-c4cc-11e9-96cd-94adadc2fd72.png"
+  },
+  "auto": {
+    "plugins": [
+      "npm"
+    ]
   },
   "packageManager": "pnpm@10.22.0+sha512.bf049efe995b28f527fd2b41ae0474ce29186f7edcb3bf545087bd61fbbebb2bf75362d1307fda09c2d288e1e499787ac12d4fcb617a974718a6051f2eee741c"
 }

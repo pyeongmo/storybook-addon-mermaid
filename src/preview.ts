@@ -46,6 +46,7 @@ const preview: ProjectAnnotations<Renderer> = {
               return { url, style: getIframeStyleString(minHeight) };
             },
             template: `<iframe :src="url" :style="style" />`,
+            format: () => {},
           };
         }
 

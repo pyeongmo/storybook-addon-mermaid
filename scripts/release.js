@@ -37,10 +37,14 @@ try {
     }
   }
 
-  console.log('Running auto shipit...');
-  // --use-version 옵션을 사용하여 auto 가 특정 버전을 사용하도록 강제함 (npm 플러그인 지원)
-  const currentVersion = JSON.parse(fs.readFileSync('./package.json', 'utf8')).version;
-  execSync(`pnpm exec auto shipit --use-version ${currentVersion}`, { stdio: 'inherit' });
+  console.log('Publishing to npm...');
+  execSync('pnpm publish --no-git-checks', { stdio: 'inherit' });
+
+  console.log('Creating GitHub release...');
+  execSync('pnpm exec auto release', { stdio: 'inherit' });
+
+  console.log('Pushing changes to GitHub...');
+  execSync('git push origin main --tags', { stdio: 'inherit' });
 } catch (error) {
   console.error('Release failed:', error.message);
   process.exit(1);

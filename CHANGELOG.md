@@ -1,3 +1,19 @@
+# v0.1.4 (Thu Mar 19 2026)
+
+#### ⚠️ Pushed to `main`
+
+- add automated release script, Update CHANGELOG.md, bump version to 0.1.2 ([@pyeongmo](https://github.com/pyeongmo))
+- update vue version constraint in pnpm-lock.yaml ([@pyeongmo](https://github.com/pyeongmo))
+- initialize project ([@pyeongmo](https://github.com/pyeongmo))
+- project setup ([@pyeongmo](https://github.com/pyeongmo))
+- Initial commit ([@pyeongmo](https://github.com/pyeongmo))
+
+#### Authors: 1
+
+- 평모 ([@pyeongmo](https://github.com/pyeongmo))
+
+---
+
 # v0.1.2 (Thu Mar 19 2026)
 
 #### ⚠️ Pushed to `main`

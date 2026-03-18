@@ -31,7 +31,10 @@ export default defineConfig(async () => {
      The following packages are provided by Storybook and should always be externalized
      Meaning they shouldn't be bundled with the addon, and they shouldn't be regular dependencies either
     */
-    external: ['react', 'react-dom', '@storybook/icons'],
+    external: ['react', 'react-dom', '@storybook/icons', 'vue'],
+    loader: {
+      '.vue': 'copy',
+    },
   };
 
   const configs: Options[] = [];

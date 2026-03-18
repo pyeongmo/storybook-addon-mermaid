@@ -1,6 +1,6 @@
 {
   "name": "storybook-addon-mermaid",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "import and view .mmd file in your storybook",
   "keywords": [
     "storybook-addon"
@@ -10,7 +10,7 @@
     "url": "https://github.com/pyeongmo/storybook-addon-mermaid"
   },
   "license": "MIT",
-  "author": "9pm <9pm@kakao.com>",
+  "author": "pyeongmo <9pm@kakao.com>",
   "type": "module",
   "exports": {
     ".": {
@@ -47,15 +47,21 @@
     "storybook": "storybook dev -p 6006",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "dependencies": {
+    "pako": "^2.1.0"
+  },
   "devDependencies": {
     "@eslint/js": "^9.36.0",
     "@storybook/addon-docs": "next",
     "@storybook/icons": "^2.0.0",
     "@storybook/react-vite": "next",
+    "@storybook/vue": "next",
     "@types/node": "^20",
+    "@types/pako": "^2.0.3",
     "@types/react": "^18.2.65",
     "@types/react-dom": "^18.2.21",
     "@vitejs/plugin-react": "^4.7.0",
+    "@vitejs/plugin-vue": "^6.0.5",
     "auto": "^11.3.0",
     "boxen": "^8.0.1",
     "eslint": "^9.36.0",
@@ -77,7 +83,10 @@
     "zx": "^8.7.1"
   },
   "peerDependencies": {
-    "storybook": "*"
+    "storybook": "*",
+    "react": ">=16.8.0",
+    "react-dom": ">=16.8.0",
+    "vue": "^3.0.0"
   },
   "publishConfig": {
     "access": "public"
@@ -98,7 +107,9 @@
   "storybook": {
     "displayName": "Storybook Mermaid Addon",
     "supportedFrameworks": [
-      "react", "vue", "angular", "web-components", "ember", "html", "svelte", "preact", "react-native"
+      "react",
+      "vue",
+      "html"
     ],
     "icon": "https://user-images.githubusercontent.com/321738/63501763-88dbf600-c4cc-11e9-96cd-94adadc2fd72.png"
   },

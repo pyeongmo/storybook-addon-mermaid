@@ -38,10 +38,11 @@ if (name.includes('addon-kit') || displayName.includes('Addon Kit')) {
 /**
  * Check that README has been updated
  */
-const readmeTestStrings =
-  '# Storybook Addon Kit|Click the \\*\\*Use this template\\*\\* button to get started.|https://user-images.githubusercontent.com/42671/106809879-35b32000-663a-11eb-9cdc-89f178b5273f.gif';
+const readmeContents = await readFile('./README.md', 'utf8');
+const readmeTestRegex =
+  /# Storybook Addon Kit|Click the \*\*Use this template\*\* button to get started.|https:\/\/user-images\.githubusercontent\.com\/42671\/106809879-35b32000-663a-11eb-9cdc-89f178b5273f\.gif/;
 
-if ((await $`cat README.md | grep -E ${readmeTestStrings}`.exitCode) == 0) {
+if (readmeTestRegex.test(readmeContents)) {
   console.error(
     boxen(
       dedent`
@@ -63,6 +64,10 @@ if ((await $`cat README.md | grep -E ${readmeTestStrings}`.exitCode) == 0) {
 const peerDependencies = Object.keys(packageJson.peerDependencies || {});
 const globalPackages = [...globalManagerPackages, ...globalPreviewPackages];
 peerDependencies.forEach((dependency) => {
+  // We want to keep react and react-dom as peerDependencies for our components
+  if (dependency === 'react' || dependency === 'react-dom' || dependency === 'vue') {
+    return;
+  }
   if (globalPackages.includes(dependency)) {
     console.error(
       boxen(

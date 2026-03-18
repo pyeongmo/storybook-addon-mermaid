@@ -1,14 +1,25 @@
-// You can use presets to augment the Storybook configuration
-// You rarely want to do this in addons,
-// so often you want to delete this file and remove the reference to it in package.json#exports and package.json#bunder.nodeEntries
-// Read more about presets at https://storybook.js.org/docs/addons/writing-presets
-
-export const viteFinal = async (config: unknown) => {
-  console.log('This addon is augmenting the Vite config');
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const viteFinal = async (config: any) => {
+  config.plugins = config.plugins || [];
+  config.plugins.push({
+    name: 'mermaid-loader',
+    transform(code: string, id: string) {
+      if (id.endsWith('.mmd')) {
+        return {
+          code: `export default ${JSON.stringify(code)};`,
+          map: null,
+        };
+      }
+    },
+  });
   return config;
 };
 
-export const webpack = async (config: unknown) => {
-  console.log('This addon is augmenting the Webpack config');
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const webpack = async (config: any) => {
+  config.module.rules.push({
+    test: /\.mmd$/,
+    type: 'asset/source',
+  });
   return config;
 };

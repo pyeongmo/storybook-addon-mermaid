@@ -1,3 +1,15 @@
+# v0.2.6 (Thu Mar 19 2026)
+
+#### ⚠️ Pushed to `main`
+
+- feat: add Storybook support for Vue with local preset and update Neptune Viewer template (9pm@kakao.com)
+
+#### Authors: 1
+
+- 9pm (9pm@kakao.com)
+
+---
+
 # v0.2.5 (Thu Mar 19 2026)
 
 #### ⚠️ Pushed to `main`

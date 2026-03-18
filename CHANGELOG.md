@@ -1,3 +1,15 @@
+# v0.2.5 (Thu Mar 19 2026)
+
+#### ⚠️ Pushed to `main`
+
+- fix: add placeholder format function in preview component (9pm@kakao.com)
+
+#### Authors: 1
+
+- 9pm (9pm@kakao.com)
+
+---
+
 # v0.2.4 (Thu Mar 19 2026)
 
 #### ⚠️ Pushed to `main`

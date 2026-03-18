@@ -41,7 +41,7 @@ export function buildMermaidStory(mmd: string, options: MermaidStoryOptions = {}
       }
 
       return {
-        template: `<iframe v-if="url" :src="url" :style="style" />`,
+        template: `<iframe src="${url}" style="${style}" />`,
       };
     },
   };

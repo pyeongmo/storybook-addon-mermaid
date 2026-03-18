@@ -1,6 +1,6 @@
 {
   "name": "storybook-addon-mermaid",
-  "version": "0.1.19",
+  "version": "0.1.20",
   "description": "import and view .mmd file in your storybook",
   "keywords": [
     "storybook-addon"

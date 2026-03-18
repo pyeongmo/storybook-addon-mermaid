@@ -74,18 +74,3 @@ import { buildMermaidStory } from 'storybook-addon-mermaid';
 export default { title: 'Vue/Mermaid' };
 export const FromFile = buildMermaidStory("graph TD; A-->B;");
 ```
-
-### Creating a release
-
-To create a release locally you can run the following command, otherwise the GitHub action will make the release for you.
-
-```sh
-npm run release
-```
-
-That will:
-
-- Build and package the addon code
-- Bump the version
-- Push a release to GitHub and npm
-- Push a changelog to GitHub

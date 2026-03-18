@@ -28,8 +28,8 @@ export function buildMermaidStory(mmd: string, options: MermaidStoryOptions = {}
         style += 'height: 100svh;';
       }
 
-      // Detection for Vue
-      const isVue = context?.renderer === 'vue3' || context?.renderer === 'vue';
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const isVue = context?.renderer?.includes('vue') || typeof (window as any).Vue !== 'undefined';
 
       if (isVue) {
         return {
@@ -40,8 +40,9 @@ export function buildMermaidStory(mmd: string, options: MermaidStoryOptions = {}
         };
       }
 
-      // Default to iframe string (works for HTML renderer)
-      return `<iframe src="${url}" style="${style}"></iframe>`;
+      return {
+        template: `<iframe v-if="url" :src="url" :style="style" />`,
+      };
     },
   };
 }

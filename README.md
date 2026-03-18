@@ -50,7 +50,7 @@ export const Simple = () => <MermaidViewer mmd="graph TD; A-->B;" />;
 import { buildMermaidStoryReact } from 'storybook-addon-mermaid';
 
 export default { title: 'React/Mermaid' };
-export const FromFile = buildMermaidStoryReact("graph TD; A-->B;");
+export const FromText = buildMermaidStoryReact("graph TD; A-->B;");
 ```
 
 #### Vue
@@ -59,10 +59,11 @@ export const FromFile = buildMermaidStoryReact("graph TD; A-->B;");
 <!-- MyStory.stories.vue -->
 <script setup lang="ts">
 import { MermaidViewerVue } from 'storybook-addon-mermaid';
+import diagram from './diagram.mmd';
 </script>
 
 <template>
-  <MermaidViewerVue mmd="graph TD; A-->B;" />
+  <MermaidViewerVue :mmd="diagram" />
 </template>
 ```
 
@@ -70,7 +71,8 @@ import { MermaidViewerVue } from 'storybook-addon-mermaid';
 
 ```ts
 import { buildMermaidStory } from 'storybook-addon-mermaid';
+import diagram from './diagram.mmd';
 
 export default { title: 'Vue/Mermaid' };
-export const FromFile = buildMermaidStory("graph TD; A-->B;");
+export const FromFile = buildMermaidStory(diagram);
 ```

@@ -15,7 +15,7 @@ try {
 
     console.log('Generating changelog...');
     try {
-      // auto changelog --use-version <version> 을 사용해 정확한 버전 명시
+      // auto changelog --title <version> 을 사용해 정확한 버전 명시
       // --from 옵션을 사용하여 중복 생성을 방지 (마지막 태그부터 현재까지)
       let fromTag = '';
       try {
@@ -23,7 +23,7 @@ try {
       } catch (e) {
         console.log('No previous tags found, generating full changelog.');
       }
-      execSync(`pnpm exec auto changelog --use-version v${updatedVersion} ${fromTag}`, { stdio: 'inherit' });
+      execSync(`pnpm exec auto changelog --title v${updatedVersion} ${fromTag}`, { stdio: 'inherit' });
     } catch (e) {
       console.warn('Changelog generation failed:', e.message);
     }

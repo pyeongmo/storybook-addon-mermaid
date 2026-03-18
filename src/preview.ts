@@ -22,23 +22,34 @@ const preview: ProjectAnnotations<Renderer> = {
         const { mermaidBaseUrl: baseUrl, mermaidMinHeight: minHeight, mermaidTheme: theme } = parameters;
         const url = generateMermaidUrl(mmd, theme, baseUrl);
 
-        try {
-          const renderer = context.parameters.renderer || '';
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          const rendererStr = typeof renderer === 'string' ? renderer : (renderer as any)?.name || '';
-          const isReact = rendererStr.includes('react');
+        const renderer = context.parameters.renderer || '';
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const rendererStr = typeof renderer === 'string' ? renderer : (renderer as any)?.name || '';
+        const isReact = rendererStr.includes('react');
+        const isVue = rendererStr.includes('vue');
 
-          if (isReact && typeof React !== 'undefined' && React.createElement) {
+        if (isReact && typeof React !== 'undefined' && React.createElement) {
+          try {
             return React.createElement('iframe', {
               src: url,
               style: getIframeStyle(minHeight),
             });
+          } catch {
+            // ignore
           }
-        } catch {
-          // ignore
         }
 
-        // fallback for Vue/HTML/others
+        if (isVue) {
+          return {
+            name: 'MermaidDecorator',
+            setup() {
+              return { url, style: getIframeStyleString(minHeight) };
+            },
+            template: `<iframe :src="url" :style="style" />`,
+          };
+        }
+
+        // fallback for HTML/others
         return {
           template: `<iframe src="${url}" style="${getIframeStyleString(minHeight)}" />`,
         };

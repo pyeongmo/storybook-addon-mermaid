@@ -1,3 +1,15 @@
+# v0.2.4 (Thu Mar 19 2026)
+
+#### ⚠️ Pushed to `main`
+
+- fix: improve Mermaid iframe rendering for Vue and update changelog generation command (9pm@kakao.com)
+
+#### Authors: 1
+
+- 9pm (9pm@kakao.com)
+
+---
+
 # v0.2.1 (Thu Mar 19 2026)
 
 #### ⚠️ Pushed to `main`

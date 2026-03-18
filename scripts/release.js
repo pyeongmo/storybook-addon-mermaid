@@ -21,7 +21,7 @@ try {
     const status = execSync('git status --short', { encoding: 'utf8' }).trim();
     if (status) {
       console.log('Staging changes and committing...');
-      execSync('git add package.json CHANGELOG.md', { stdio: 'inherit' });
+      execSync('git add package.json CHANGELOG.md scripts/release.js', { stdio: 'inherit' });
       execSync(`git commit -m "chore(release): bump version to ${bump} [skip ci]"`, { stdio: 'inherit' });
     } else {
       console.log('No changes to commit.');
@@ -31,7 +31,11 @@ try {
   console.log('Running auto shipit...');
   // 윈도우에서 인자 전달 문제를 피하기 위해, auto shipit이 직접 npm version을 호출하지 않도록
   // 최대한 이미 업데이트된 정보를 바탕으로 동작하게 유도합니다.
-  execSync('pnpm exec auto shipit', { stdio: 'inherit' });
+  // --use-version을 사용하여 auto가 npm version을 호출하는 대신 지정된 버전을 사용하도록 합니다.
+  const packageJson = JSON.parse(fs.readFileSync('package.json', 'utf8'));
+  const currentVersion = packageJson.version;
+  console.log(`Using version: ${currentVersion}`);
+  execSync(`pnpm exec auto shipit --use-version ${currentVersion}`, { stdio: 'inherit' });
 } catch (error) {
   console.error('Release failed:', error.message);
   process.exit(1);

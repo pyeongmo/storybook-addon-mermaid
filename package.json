@@ -55,7 +55,6 @@
     "@storybook/addon-docs": "next",
     "@storybook/icons": "^2.0.0",
     "@storybook/react-vite": "next",
-    "@storybook/vue": "next",
     "@types/node": "^20",
     "@types/pako": "^2.0.3",
     "@types/react": "^18.2.65",

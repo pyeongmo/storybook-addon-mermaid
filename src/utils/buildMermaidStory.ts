@@ -11,16 +11,15 @@ export interface MermaidStoryOptions {
  * Defaults to Vue-compatible story format.
  */
 export function buildMermaidStory(mmd: string, options: MermaidStoryOptions = {}) {
-  const url = generateMermaidUrl(mmd, options.theme);
-
   return {
     parameters: {
       layout: options.layout || 'fullscreen',
       docs: { source: { code: mmd } },
     },
-    render: (args: unknown, context?: { renderer?: string }) => {
+    render: () => {
       // We use a generic approach to handle different frameworks.
       // Most frameworks (Vue, HTML, Svelte) can handle a string or an object with template.
+      const url = generateMermaidUrl(mmd, options.theme);
 
       const inNewTab = typeof window !== 'undefined' && window.location.search.includes('viewMode=story');
       let style = 'width: 100%; min-height: 40rem; border: none;';
@@ -29,9 +28,9 @@ export function buildMermaidStory(mmd: string, options: MermaidStoryOptions = {}
       }
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const isVue = context?.renderer?.includes('vue') || typeof (window as any).Vue !== 'undefined';
+      const renderer: string = (globalThis as any).STORYBOOK_RENDERER;
 
-      if (isVue) {
+      if (renderer.includes('vue')) {
         return {
           setup() {
             return { url, style, inNewTab };

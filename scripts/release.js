@@ -6,19 +6,31 @@ try {
 
   if (bump) {
     console.log(`Bumping version: ${bump}`);
-    // Use pnpm version with the bump type/version
+    // pnpm version <bump> --no-git-tag-version 을 실행하면 package.json 의 버전이 업데이트됨
     execSync(`pnpm version ${bump} --no-git-tag-version`, { stdio: 'inherit' });
-    execSync('git add package.json', { stdio: 'inherit' });
+
+    console.log('Generating changelog...');
     try {
       execSync('pnpm exec auto changelog', { stdio: 'inherit' });
-      execSync('git add CHANGELOG.md', { stdio: 'inherit' });
     } catch (e) {
-      console.warn('Changelog generation skipped or failed:', e.message);
+      console.warn('Changelog generation failed:', e.message);
     }
-    execSync(`git commit -m "Bump version to: ${bump} [skip ci]"`, { stdio: 'inherit' });
+
+    // 변경사항이 있는지 확인 후 커밋
+    const status = execSync('git status --short', { encoding: 'utf8' }).trim();
+    if (status) {
+      console.log('Staging changes and committing...');
+      execSync('git add package.json CHANGELOG.md', { stdio: 'inherit' });
+      execSync(`git commit -m "chore(release): bump version to ${bump} [skip ci]"`, { stdio: 'inherit' });
+    } else {
+      console.log('No changes to commit.');
+    }
   }
 
-  console.log('Running auto shipit...');
+  console.log('Running auto shipit to publish...');
+  // --no-changelog 플러그인을 쓰거나 설정으로 제어하면 좋지만,
+  // 여기서는 단순히 shipit 이 중복 작업을 최대한 안 하도록 유도해야 함.
+  // 이미 로컬에서 버전이 올라가 있고 CHANGELOG가 있다면 shipit 은 이를 감지할 것.
   execSync('pnpm exec auto shipit', { stdio: 'inherit' });
 } catch (error) {
   console.error('Release failed:', error.message);

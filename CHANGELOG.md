@@ -1,3 +1,15 @@
+# v0.2.7 (Thu Mar 19 2026)
+
+#### ⚠️ Pushed to `main`
+
+- fix: Mermaid iframe rendering into `appendViewer` decorator and optimize Storybook setup (9pm@kakao.com)
+
+#### Authors: 1
+
+- 9pm (9pm@kakao.com)
+
+---
+
 # v0.2.6 (Thu Mar 19 2026)
 
 #### ⚠️ Pushed to `main`

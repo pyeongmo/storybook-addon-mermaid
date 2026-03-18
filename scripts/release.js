@@ -28,10 +28,8 @@ try {
   }
 
   console.log('Running auto shipit to publish...');
-  // --no-changelog 플러그인을 쓰거나 설정으로 제어하면 좋지만,
-  // 여기서는 단순히 shipit 이 중복 작업을 최대한 안 하도록 유도해야 함.
-  // 이미 로컬에서 버전이 올라가 있고 CHANGELOG가 있다면 shipit 은 이를 감지할 것.
-  execSync('pnpm exec auto shipit', { stdio: 'inherit' });
+  // auto shipit --only-publish 옵션을 사용하여 버전 범프와 태그 생성을 건너뜀
+  execSync('pnpm exec auto shipit --only-publish', { stdio: 'inherit' });
 } catch (error) {
   console.error('Release failed:', error.message);
   process.exit(1);
